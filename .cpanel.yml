@@ -1,0 +1,14 @@
+---
+deployment:
+  tasks:
+    # Publica apenas os arquivos públicos em $HOME/public_html/
+    - export DEPLOYPATH="$HOME/public_html"
+    - /bin/mkdir -p "$DEPLOYPATH"
+    # index.html (obrigatório) + pasta assets
+    - /bin/cp -R index.html "$DEPLOYPATH/"
+    - /bin/cp -R assets "$DEPLOYPATH/"
+    # *.js e *.css da raiz (ex.: support.js) e .htaccess, se existirem.
+    # nullglob evita erro quando algum padrão não casa com nenhum arquivo.
+    - /bin/bash -c 'shopt -s nullglob dotglob; for f in *.js *.css .htaccess; do /bin/cp -R "$f" "$DEPLOYPATH/"; done'
+    # NUNCA copiar: node_modules, src, components, lib, .git, README.md,
+    # *.dc.html ou quaisquer arquivos internos (não são referenciados acima).

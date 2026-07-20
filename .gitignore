@@ -1,0 +1,24 @@
+# Dependencies / build (não usados neste site estático, mas prevenidos)
+node_modules/
+dist/
+build/
+.cache/
+
+# Ambiente / segredos — NUNCA versionar
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+deploy_key*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
