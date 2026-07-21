@@ -10,46 +10,54 @@ O site é um documento **Design Canvas** (`.dc.html`). A marcação fica dentro
 de `<x-dc>` e é renderizada no navegador por `support.js` (o runtime do
 Design Canvas), que carrega React 18 via CDN (`unpkg.com`) e monta a página.
 
-- **`index.html`** — página servível (documento `<x-dc>` completo). É o ponto
-  de entrada do site.
+- **`index.html`** — página servível (documento `<x-dc>` completo). Ponto de
+  entrada do site.
 - **`Mega ADS.dc.html`** — cópia com o nome original do arquivo de design,
-  mantida como fonte para re-sincronização futura. Conteúdo idêntico ao
-  `index.html`.
+  mantida como fonte para re-sincronização. Conteúdo idêntico ao `index.html`.
 - **`support.js`** — runtime do Design Canvas (gerado; não editar à mão).
 - **`assets/`** — imagens locais (logo, hero, timeline "Jornada", OG image).
 
 ## Rodando localmente
 
-Sirva a pasta por HTTP (o runtime faz um `fetch` do próprio documento, o que
-não funciona via `file://`):
+Sirva a pasta por HTTP (o runtime faz `fetch` do próprio documento, o que não
+funciona via `file://`):
 
 ```bash
 python3 -m http.server 8000
 # abra http://localhost:8000/
 ```
 
-Em tempo de execução o navegador busca, além do `support.js` local:
-React/ReactDOM (`unpkg.com`), a fonte Montserrat (Google Fonts) e algumas
-imagens de exemplo (`images.unsplash.com`, `randomuser.me`). É necessário
-acesso à internet para carregá-los.
+Em runtime o navegador também busca: React/ReactDOM (`unpkg.com`), a fonte
+Montserrat (Google Fonts) e imagens de exemplo (`images.unsplash.com`,
+`randomuser.me`). É necessário acesso à internet.
 
 ## Publicação
 
-É um site 100% estático — publique a pasta em qualquer host estático
-(Netlify, Vercel, GitHub Pages, S3/CloudFront, Nginx, etc.). Nenhum build é
-necessário.
+Site 100% estático — publique a pasta em qualquer host estático (HostGator,
+Hostinger, Netlify, Vercel, GitHub Pages, etc.). Nenhum build é necessário.
+O deploy via cPanel Git Version Control usa o `.cpanel.yml` da raiz.
 
 ## Observações da importação
 
-Dois arquivos do projeto de design **excederam o limite de 256 KB por arquivo
-do importador** e não puderam ser trazidos na íntegra:
+Os **6 arquivos de vídeo** do design ultrapassam o limite de 256 KB por
+arquivo do importador e **não puderam ser trazidos**. As referências foram
+mantidas no código, então basta copiar os arquivos originais para as pastas
+indicadas que os vídeos passam a funcionar — **nenhuma alteração de código é
+necessária**:
 
-1. **`assets/jornada/2026.webp`** (original ≈ 750 KB) — foto da equipe usada
-   no carrossel "Nossa Jornada". Foi substituída por um **placeholder da
-   marca** (mesma proporção) para não quebrar o layout. Substitua pela foto
-   original quando disponível.
-2. **`assets/hero-bg-video.mp4`** — vídeo decorativo de fundo do hero
-   (opacidade ~5%). O elemento `<video>` foi **removido** do hero para evitar
-   um 404; o visual permanece praticamente idêntico (o fundo é o gradiente
-   radial). Para restaurar, adicione o arquivo em `assets/` e reponha o
-   bloco `<video>` no hero, reativando a prop `showHeroVideo`.
+| Arquivo a adicionar | Onde é usado |
+|---|---|
+| `assets/hero-bg-video.mp4` | vídeo de fundo do Hero (decorativo, ~5% opacidade) |
+| `assets/intro/trafego.webm` | seção INTRO (scroll FX) — Tráfego |
+| `assets/intro/ia.mp4` | seção INTRO — IA de pré-atendimento |
+| `assets/intro/crm.webm` | seção INTRO — CRM |
+| `assets/intro/comercial.webm` | seção INTRO — Comercial |
+| `assets/intro/site.webm` | seção INTRO — Site/Landing |
+
+Enquanto os vídeos não são adicionados, o site **funciona normalmente**: a
+seção INTRO exibe as imagens de fundo (Unsplash) e o Hero exibe o gradiente —
+os `<video>` sem arquivo apenas não aparecem (sem ícone de imagem quebrada).
+No console haverá 6 avisos `404` até que os arquivos sejam adicionados.
+
+Todas as imagens foram importadas normalmente, incluindo a foto real e
+otimizada da timeline (`assets/jornada/2026-opt.webp`).
