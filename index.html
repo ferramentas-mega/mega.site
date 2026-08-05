@@ -290,6 +290,8 @@
     [style*="mega-float"],[style*="mega-shiny"],[style*="mega-diag"],[style*="mega-dash"],[style*="mega-scrolldown"],[style*="mega-fab"]{animation:none !important}
     /* não renderiza seções abaixo da dobra até chegar perto (menos trabalho na abertura) */
     #para-quem,#portfolio-2{content-visibility:auto;contain-intrinsic-size:auto 900px}
+    /* remove vidro-fosco (backdrop-filter) no celular: composição cara, fundos já quase opacos */
+    [style*="backdrop-filter"]{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
   }
   /* respeita usuários que pedem menos movimento (acessibilidade + CPU) */
   @media (prefers-reduced-motion:reduce){
@@ -1162,7 +1164,7 @@ class Component extends DCLogic {
     var slow = !!(conn && (conn.saveData || /(^|-)(2g|3g)$/.test(conn.effectiveType || '')));
     this._heavyMq = window.matchMedia ? window.matchMedia('(min-width:900px)') : null;
     this._evalHeavy = () => {
-      const use = !slow && !this._reduceMotion;
+      const use = !slow && !this._reduceMotion && !!(this._heavyMq && this._heavyMq.matches);
       if (use === this._useVideo) return;
       this._useVideo = use;
       if (use) {
