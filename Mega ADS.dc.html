@@ -283,6 +283,19 @@
   @media (max-width:400px){
     .mega-nav-cluster > a{height:44px !important;padding:0 18px !important;font-size:14px !important}
   }
+  /* ===== Passe de performance mobile (conservador) ===== */
+  @media (max-width:768px){
+    /* pausa animações decorativas infinitas no celular (repaint constante / não compostas) */
+    .mega-blob,.mega-plpulse,.mega-livedot,
+    [style*="mega-float"],[style*="mega-shiny"],[style*="mega-diag"],[style*="mega-dash"],[style*="mega-scrolldown"],[style*="mega-fab"]{animation:none !important}
+    /* não renderiza seções abaixo da dobra até chegar perto (menos trabalho na abertura) */
+    #para-quem,#portfolio-2{content-visibility:auto;contain-intrinsic-size:auto 900px}
+  }
+  /* respeita usuários que pedem menos movimento (acessibilidade + CPU) */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    html{scroll-behavior:auto !important}
+  }
 </style>
 </helmet>
 
