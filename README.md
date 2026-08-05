@@ -14,4 +14,4 @@ O assets/ precisa ficar ao lado do index.html.
 
 ## Integrações
 - Leads: Google Apps Script -> Google Sheets + e-mail (URL no submitForm do index.html)
-- WhatsApp: 55 91 8348-6435
+- WhatsApp: 55 48 99100-6505

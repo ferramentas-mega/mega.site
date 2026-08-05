@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="./support.js" defer></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="preconnect" href="https://images.unsplash.com" crossorigin="">
+<link rel="preconnect" href="https://randomuser.me" crossorigin="">
 <link rel="dns-prefetch" href="https://images.unsplash.com">
 <link rel="dns-prefetch" href="https://randomuser.me">
 <link rel="preload" as="image" href="assets/logo-outline.png" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-<title>Captação de Clientes para Advogados | Marketing Jurídico | Mega ADS</title>
-<meta name="description" content="A Mega ADS capta clientes para advogados de ponta a ponta: do anúncio no Google e Meta Ads ao contrato de honorários assinado na sua mão. 7 anos, +3.000 escritórios de advocacia atendidos, só advocacia. Você paga pelo resultado.">
+<title>Captação de Clientes para Advogados | Mega ADS</title>
+<meta name="description" content="Captação de clientes para advogados, do anúncio ao contrato assinado. +3.000 escritórios atendidos em 7 anos, só advocacia. Você paga pelo resultado.">
 <meta name="keywords" content="captação de clientes para advogados, como captar clientes na advocacia, como captar clientes para escritório de advocacia, como conseguir clientes na advocacia, marketing jurídico, marketing digital para advogados, agência de marketing jurídico, tráfego pago para advogados, Google Ads para advogados, Meta Ads para advogados, leads qualificados para advogados, escalar escritório de advocacia, prospecção de clientes advocacia, marketing jurídico previdenciário, marketing jurídico trabalhista, publicidade advocacia OAB, aceleradora de escritórios de advocacia">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#080C17">
@@ -312,10 +312,11 @@
 </sc-if>
 
 <!-- ================= HERO (opening, scroll reveal) ================= -->
+<main id="conteudo">
 <section id="home" style="position:relative;height:220vh;background:#080C17">
   <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:96px 16px 64px">
     <sc-if value="{{ showVideo }}" hint-placeholder-val="{{ true }}">
-      <video id="hero-video" src="assets/hero-bg-video.mp4" poster="assets/hero-bg-poster.jpg" preload="none" autoplay="" loop="" muted="" playsinline="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:.14"></video>
+      <video id="hero-video" src="assets/hero-bg-video.mp4" poster="assets/hero-bg-poster.jpg" preload="none" loop="" muted="" playsinline="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:.14"></video>
     </sc-if>
     <canvas id="hero-gradient" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.26"></canvas>
     <div style="position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 60% 55% at center,rgba(5,9,18,.55),rgba(5,9,18,.82) 75%)"></div>
@@ -758,6 +759,7 @@
 </section>
 
 <!-- ================= FOOTER ================= -->
+</main>
 <footer id="contato" style="position:relative;width:100%;overflow:hidden;border-top:1px solid hsl(217,30%,18%);background:#080C17;margin-top:96px;content-visibility:auto;contain-intrinsic-size:1px 720px">
   <div style="position:relative;z-index:2;max-width:1120px;margin:0 auto;padding:64px 24px 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
     <img decoding="async" src="assets/logo.png" alt="Mega ADS - Agência de Marketing Jurídico" style="height:46px;width:auto">
@@ -816,7 +818,7 @@
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;whatsappUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://api.whatsapp.com/send?phone=559183486435&amp;text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Conteúdo&quot;},&quot;ctaText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Quero fechar mais contratos&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Conteúdo&quot;},&quot;showHeroVideo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;whatsappUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://api.whatsapp.com/send?phone=5548991006505&amp;text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Conteúdo&quot;},&quot;ctaText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Quero fechar mais contratos&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Conteúdo&quot;},&quot;showHeroVideo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
 class Component extends DCLogic {
   state = {
     scrolled: false,
@@ -1368,7 +1370,7 @@ class Component extends DCLogic {
   onSave = () => {
     if (this.state.saveStatus !== 'idle') return;
     this.setState({ saveStatus: 'saving' });
-    const url = this.props.whatsappUrl || 'https://api.whatsapp.com/send?phone=559183486435&text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio';
+    const url = this.props.whatsappUrl || 'https://api.whatsapp.com/send?phone=5548991006505&text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio';
     setTimeout(() => {
       this.setState({ saveStatus: 'saved' });
       window.open(url, '_blank');
@@ -1395,7 +1397,7 @@ class Component extends DCLogic {
     if (e && e.preventDefault) e.preventDefault();
     const { fNome, fEmail, fWhats } = this.state;
     if (!fNome.trim() || !fWhats.trim()) { this.setState({ formErr: 'Por favor, preencha seu nome e WhatsApp.' }); return; }
-    const phone = '559183486435';
+    const phone = '5548991006505';
     let msg = 'Olá! Meu nome é ' + fNome.trim() + ' e quero escalar meu escritório com marketing jurídico.';
     if (fEmail.trim()) msg += ' E-mail: ' + fEmail.trim() + '.';
     if (fWhats.trim()) msg += ' WhatsApp: ' + fWhats.trim() + '.';
@@ -1422,7 +1424,7 @@ class Component extends DCLogic {
         try { fetch(base + '?' + qs, { mode: 'no-cors', keepalive: true }).catch(function(){}); } catch (_) {}
       } catch (_) {}
     }
-    const url = 'https://wa.me/559183486435?text=' + encodeURIComponent('Olá! Quero escalar meu escritório, entender sobre marketing para advogados');
+    const url = 'https://api.whatsapp.com/send/?phone=5548991006505&type=phone_number&app_absent=0&text=' + encodeURIComponent('Olá! Quero escalar meu escritório, entender sobre marketing para advogados');
     try {
       const a = document.createElement('a');
       a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
@@ -1446,7 +1448,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state;
-    const waUrl = this.props.whatsappUrl || 'https://api.whatsapp.com/send?phone=559183486435&text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio';
+    const waUrl = this.props.whatsappUrl || 'https://api.whatsapp.com/send?phone=5548991006505&text=Ol%C3%A1!%20Quero%20escalar%20meu%20escrit%C3%B3rio';
 
     // Header
     const headerStyle = 'position:fixed;top:0;left:0;right:0;z-index:50;width:100%;transition:background .3s,backdrop-filter .3s,border-color .3s,opacity .4s,transform .4s;' +
@@ -1678,5 +1680,6 @@ class Component extends DCLogic {
   }
 }
 </script>
+<script>(function(){try{var v=document.getElementById('hero-video');if(v&&!matchMedia('(max-width:768px)').matches){v.setAttribute('preload','auto');var p=v.play();if(p&&p.catch){p.catch(function(){});}}}catch(e){}})();</script>
 </body>
 </html>
