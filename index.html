@@ -1193,7 +1193,7 @@ class Component extends DCLogic {
     const plMark = () => { plReady = true; };
     if (document.readyState === 'complete') plMark();
     else window.addEventListener('load', plMark, { once: true });
-    this._plCap = setTimeout(plMark, 900);
+    this._plCap = setTimeout(plMark, 300);
     const plTick = () => {
       const now = (typeof performance !== 'undefined' ? performance.now() : Date.now());
       const target = plReady ? 100 : Math.min(94, (now - this._plStart) / 360 * 94);
