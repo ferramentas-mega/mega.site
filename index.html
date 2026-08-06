@@ -55,6 +55,7 @@
 </script>
 <style>
   @font-face{font-family:'Montserrat';font-style:normal;font-weight:400 900;font-display:swap;src:url('assets/fonts/montserrat-var.woff2') format('woff2')}
+  @keyframes mega-heroentr{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   *{box-sizing:border-box}
   body{margin:0;background:#080C17;color:#fff;font-family:'Montserrat',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
   a{color:hsl(214,100%,43%);text-decoration:none}
@@ -334,8 +335,8 @@
 
 <!-- ================= HERO (opening, scroll reveal) ================= -->
 <main id="conteudo">
-<section id="home" style="position:relative;height:220vh;background:#080C17">
-  <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:96px 16px 64px">
+<section id="home" style="position:relative;min-height:100vh;background:#080C17">
+  <div style="position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:96px 16px 64px">
     <sc-if value="{{ showVideo }}" hint-placeholder-val="{{ true }}">
       <video id="hero-video" src="assets/hero-bg-video.mp4" poster="assets/hero-bg-poster.jpg" preload="none" loop="" muted="" playsinline="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;z-index:0;opacity:.4"></video>
     </sc-if>
@@ -351,7 +352,7 @@
       <div style="width:26px;height:42px;border:2px solid hsla(214,100%,70%,.55);border-radius:14px;display:flex;justify-content:center;padding-top:7px"><span style="width:4px;height:8px;border-radius:2px;background:hsl(214,100%,70%)"></span></div>
     </div>
     <div style="max-width:1280px;width:100%;margin:0 auto;position:relative;z-index:10">
-      <div id="op-inner" style="display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center;will-change:transform,opacity;transition:transform .14s ease-out,opacity .14s ease-out">
+      <div id="op-inner" style="display:flex;flex-direction:column;gap:28px;align-items:center;text-align:center;animation:mega-heroentr .8s ease-out both">
         <div>
           <div style="display:inline-flex;align-items:center;gap:8px;border-radius:9999px;border:1px solid hsla(214,100%,43%,.3);background:hsla(214,100%,43%,.1);padding:8px 16px;background-image:linear-gradient(to right,transparent,rgba(255,255,255,.12),transparent);background-repeat:no-repeat;background-size:200px 100%;animation:mega-shiny 12s infinite">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
@@ -359,7 +360,7 @@
           </div>
         </div>
         <h1 style="font-size:clamp(38px,5.2vw,60px);font-weight:900;line-height:1.05;letter-spacing:-.02em;margin:0;text-wrap:balance">A Maior Agência de<br><span style="background-image: linear-gradient(135deg, rgb(0, 95, 219), rgb(31, 143, 255)); background-clip: text; color: transparent;">Marketing Jurídico</span><br>do Brasil</h1>
-        <div id="op-sub" style="opacity:0;max-height:0;overflow:hidden;transform:translateY(10px);transition:opacity .2s ease-out,max-height .2s ease-out,transform .2s ease-out;display:flex;flex-direction:column;gap:20px;align-items:center;max-width:600px">
+        <div id="op-sub" style="display:flex;flex-direction:column;gap:20px;align-items:center;max-width:600px">
           <p style="max-width:560px;font-size:18px;line-height:1.6;color:#dbeafe;margin:0">Não entregamos cliques — entregamos o cliente pronto. Do primeiro anúncio no Google e Meta Ads ao contrato de honorários e à procuração assinados na sua mão. Você advoga; a captação de clientes é com a gente.</p>
           <p style="color:#fff;font-weight:500;margin:0">Não lucramos por projeto. <span style="color:hsl(214,100%,43%)">Lucramos quando você fecha o contrato.</span></p>
         </div>
@@ -1041,6 +1042,7 @@ class Component extends DCLogic {
   };
 
   updateOpening = () => {
+    return; // hero agora usa animação de entrada — sem efeito de scroll
     const el = this._opWrap || (this._opWrap = document.getElementById('home')); if (!el) return;
     const vh = window.innerHeight || 1;
     const rect = el.getBoundingClientRect();
