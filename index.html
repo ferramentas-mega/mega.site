@@ -14,7 +14,9 @@
 <link rel="dns-prefetch" href="https://images.unsplash.com">
 <link rel="dns-prefetch" href="https://randomuser.me">
 <link rel="preload" as="image" href="assets/logo-outline.png" fetchpriority="high">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"></noscript>
 <title>Captação de Clientes para Advogados | Mega ADS</title>
 <meta name="description" content="Captação de clientes para advogados, do anúncio ao contrato assinado. +3.000 escritórios atendidos em 7 anos, só advocacia. Você paga pelo resultado.">
 <meta name="keywords" content="captação de clientes para advogados, como captar clientes na advocacia, como captar clientes para escritório de advocacia, como conseguir clientes na advocacia, marketing jurídico, marketing digital para advogados, agência de marketing jurídico, tráfego pago para advogados, Google Ads para advogados, Meta Ads para advogados, leads qualificados para advogados, escalar escritório de advocacia, prospecção de clientes advocacia, marketing jurídico previdenciário, marketing jurídico trabalhista, publicidade advocacia OAB, aceleradora de escritórios de advocacia">
@@ -1297,6 +1299,7 @@ class Component extends DCLogic {
   }
 
   _startSplash = () => {
+    return; // tela de abertura (splash) desativada — abre direto no hero (performance + UX)
     if (this._reduceMotion) return;
     this.setState({ splash: true });
     this._splashT1 = setTimeout(() => this.setState({ splashOut: true }), 5200);
