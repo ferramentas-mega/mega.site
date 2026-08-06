@@ -13,6 +13,7 @@ Options -Indexes
   # Vídeos (grandes e estáticos) — cache longo
   ExpiresByType video/mp4  "access plus 1 year"
   ExpiresByType video/webm "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
   # Imagens
   ExpiresByType image/webp "access plus 180 days"
   ExpiresByType image/jpeg "access plus 180 days"
@@ -34,4 +35,9 @@ Options -Indexes
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# MIME da fonte
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
 </IfModule>
