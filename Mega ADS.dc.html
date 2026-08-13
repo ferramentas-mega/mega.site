@@ -1091,7 +1091,7 @@ class Component extends DCLogic {
       if (!vel) continue;
       if (this._useVideo === false) { vel.style.display = 'none'; continue; }
       const near = (this._heavyMq && !this._heavyMq.matches) ? 0 : 1;
-      if (Math.abs(idx - i) <= near && !vel.getAttribute('src')) { vel.muted = true; vel.loop = true; vel.playsInline = true; vel.preload = 'auto'; vel.setAttribute('src', sec.video); try { vel.load(); } catch (e) {} }
+      if (Math.abs(idx - i) <= near && !vel.getAttribute('src')) { vel.muted = true; vel.loop = false; vel.playsInline = true; vel.preload = 'auto'; vel.setAttribute('src', sec.video); try { vel.load(); } catch (e) {} }
       const on = (idx === i);
       vel.style.opacity = on ? '1' : '0';
       if (on) {
