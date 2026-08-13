@@ -1125,17 +1125,11 @@ class Component extends DCLogic {
       if (goingUp || d < -0.03) {
         this._rate = 0;
         if (!v.paused) { try { v.pause(); } catch (e) {} }
-        if (Math.abs(d) < 0.008) { this._seeking = false; this._scrubRAF = null; return; }
-        if (!this._seeking) {
-          this._seeking = true;
-          const next = Math.max(0, Math.min(v.duration - 0.02, cur + d * 0.5));
-          const done = () => { this._seeking = false; };
-          try {
-            if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(done);
-            else v.addEventListener('seeked', done, { once: true });
-            setTimeout(done, 120);
-            if (v.fastSeek) v.fastSeek(next); else v.currentTime = next;
-          } catch (e) { this._seeking = false; }
+        if (Math.abs(d) < 0.005) { this._scrubRAF = null; return; }
+        // rebobina no ritmo do decodificador: só busca o próximo quadro quando o anterior terminou
+        if (!v.seeking) {
+          const next = Math.max(0, Math.min(v.duration - 0.02, cur + d * 0.28));
+          try { v.currentTime = next; } catch (e) {}
         }
         this._scrubRAF = requestAnimationFrame(loop);
         return;
