@@ -9,6 +9,6 @@ deployment:
     - /bin/cp -R assets "$DEPLOYPATH/"
     # *.js e *.css da raiz (ex.: support.js) e .htaccess, se existirem.
     # nullglob evita erro quando algum padrão não casa com nenhum arquivo.
-    - /bin/bash -c 'shopt -s nullglob dotglob; for f in *.js *.css .htaccess; do /bin/cp -R "$f" "$DEPLOYPATH/"; done'
+    - /bin/bash -c 'shopt -s nullglob dotglob; for f in *.js *.css .htaccess robots.txt sitemap.xml; do /bin/cp -R "$f" "$DEPLOYPATH/"; done'
     # NUNCA copiar: node_modules, src, components, lib, .git, README.md,
     # *.dc.html ou quaisquer arquivos internos (não são referenciados acima).
