@@ -812,7 +812,6 @@
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Nome</label><input class="mega-input" value="{{ fNome }}" onChange="{{ setNome }}" type="text" placeholder="Seu nome" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Email</label><input class="mega-input" value="{{ fEmail }}" onChange="{{ setEmail }}" type="email" placeholder="Seu melhor email" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">WhatsApp</label><input class="mega-input" value="{{ fWhats }}" onChange="{{ setWhats }}" type="tel" placeholder="(DDD) 9 9999-9999" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
-        <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Mensagem <span style="font-weight:500;color:hsl(217,20%,55%)">(opcional)</span></label><textarea class="mega-input" value="{{ fMsg }}" onChange="{{ setMsg }}" rows="3" placeholder="Conte rapidamente sobre o seu escritório" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></textarea></div>
         <sc-for list="{{ utmFields }}" as="u" hint-placeholder-count="0"><input type="hidden" name="{{ u.name }}" value="{{ u.value }}"></sc-for>
         <sc-if value="{{ showErr }}" hint-placeholder-val="{{ false }}"><p style="color:#f87171;font-size:13px;margin:-4px 0 0;text-align:center">{{ formErr }}</p></sc-if>
         <sc-if value="{{ showStatus }}" hint-placeholder-val="{{ false }}"><p role="status" style="color:hsl(145,66%,52%);font-size:13px;margin:-4px 0 0;text-align:center">{{ formStatus }}</p></sc-if>
@@ -849,7 +848,7 @@ class Component extends DCLogic {
     scrolled: false,
     openFaq: 'item-1',
     saveStatus: 'idle',
-    modalOpen: false, fNome: '', fEmail: '', fWhats: '', fMsg: '', formErr: '', formStatus: '', enviando: false, bubbleOpen: false, bubbleIdx: 0, invCount: 'R$ 0M+',
+    modalOpen: false, fNome: '', fEmail: '', fWhats: '', formErr: '', formStatus: '', enviando: false, bubbleOpen: false, bubbleIdx: 0, invCount: 'R$ 0M+',
     cEscritorios: '+3500', cCampanhas: '+4500', cInvestido: '+10M',
     tlFill: 0, tlFill2: 0,
     carStep: 0, carPaused: false,
@@ -1418,7 +1417,6 @@ class Component extends DCLogic {
   setNome = (e) => this.setState({ fNome: e.target.value });
   setEmail = (e) => this.setState({ fEmail: e.target.value });
   setWhats = (e) => this.setState({ fWhats: e.target.value });
-  setMsg = (e) => this.setState({ fMsg: e.target.value });
   dismissBubble = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ bubbleOpen: false }); };
   // UUID v4. O endpoint do painel valida o formato, então o fallback para
   // navegadores sem crypto.randomUUID também precisa ser um UUID de verdade.
@@ -1439,7 +1437,7 @@ class Component extends DCLogic {
 
   submitForm = (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    const { fNome, fEmail, fWhats, fMsg, enviando } = this.state;
+    const { fNome, fEmail, fWhats, enviando } = this.state;
     if (enviando) return;
     if (!fNome.trim() || !fWhats.trim()) { this.setState({ formErr: 'Por favor, preencha seu nome e WhatsApp.' }); return; }
     this.setState({ formErr: '', formStatus: 'Enviando…', enviando: true });
@@ -1458,7 +1456,6 @@ class Component extends DCLogic {
         const qs = 'nome=' + encodeURIComponent(fNome.trim()) +
           '&email=' + encodeURIComponent(fEmail.trim()) +
           '&whatsapp=' + encodeURIComponent(fWhats.trim()) +
-          '&mensagem=' + encodeURIComponent(fMsg.trim()) +
           '&utm_source=' + encodeURIComponent(u.utm_source || '') +
           '&utm_medium=' + encodeURIComponent(u.utm_medium || '') +
           '&utm_campaign=' + encodeURIComponent(u.utm_campaign || '') +
@@ -1490,7 +1487,6 @@ class Component extends DCLogic {
             nome: fNome.trim(),
             email: fEmail.trim(),
             telefone: fWhats.trim(),
-            mensagem: fMsg.trim(),
             caminho: (typeof location !== 'undefined' ? (location.pathname || '/') : '/'),
             visitante: vis,
             idempotencia: idem
@@ -1511,9 +1507,9 @@ class Component extends DCLogic {
         const confirmado = () => {
           if (this._formIdem === idem) this._formIdem = null;
           this.setState({
-            formStatus: 'Recebemos sua mensagem.',
+            formStatus: 'Recebemos seu contato.',
             enviando: false,
-            fNome: '', fEmail: '', fWhats: '', fMsg: '',
+            fNome: '', fEmail: '', fWhats: '',
           });
         };
         const recusado = (texto) => this.setState({
@@ -1743,8 +1739,8 @@ class Component extends DCLogic {
       ready: s.ready,
       fxBgLayer, fxLeft, fxRight, fxWords, fxSubWords, fxTrackStyle, fxNum, fxTotal, fxTag, fxFillStyle, fxRef, fxOverlayStyle,
       modalOpen: s.modalOpen, openModal: this.openModal, closeModal: this.closeModal, submitForm: this.submitForm, stopProp: this.stopProp,
-      setNome: this.setNome, setEmail: this.setEmail, setWhats: this.setWhats, setMsg: this.setMsg,
-      fNome: s.fNome, fEmail: s.fEmail, fWhats: s.fWhats, fMsg: s.fMsg, formErr: s.formErr, showErr: !!s.formErr,
+      setNome: this.setNome, setEmail: this.setEmail, setWhats: this.setWhats,
+      fNome: s.fNome, fEmail: s.fEmail, fWhats: s.fWhats, formErr: s.formErr, showErr: !!s.formErr,
       formStatus: s.formStatus, showStatus: !!s.formStatus, enviando: s.enviando,
       rotuloEnvio: s.enviando ? 'Enviando…' : 'Receber minha análise gratuita →',
       bubbleOpen: s.bubbleOpen, dismissBubble: this.dismissBubble,
