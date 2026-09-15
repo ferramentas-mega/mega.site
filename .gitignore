@@ -22,3 +22,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Testes de navegador (pasta testes/) — artefatos locais
+testes/test-results/
+testes/playwright-report/
