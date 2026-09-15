@@ -366,7 +366,7 @@
           <p style="color:#fff;font-weight:500;margin:0">Não lucramos por projeto. <span style="color:hsl(214,100%,43%)">Lucramos quando você fecha o contrato.</span></p>
         </div>
         <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px">
-          <button onClick="{{ openModal }}" style="{{ saveBtnStyle }}">
+          <button onClick="{{ openModal }}" data-track-id="cta-hero" data-track-sub="formulario" data-track-pos="Hero" style="{{ saveBtnStyle }}">
             <span style="display:flex;align-items:center;justify-content:center;gap:8px">
               <sc-if value="{{ saveSaving }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="animation:mega-spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg></sc-if>
               <sc-if value="{{ saveSaved }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
@@ -453,7 +453,7 @@
       <a href="#portfolio-2" style="font-size:14px;color:hsl(217,20%,65%);transition:color .2s" style-hover="color:#fff">Portfólio</a>
       <a href="#contato" style="font-size:14px;color:hsl(217,20%,65%);transition:color .2s" style-hover="color:#fff">Trabalhe Conosco</a>
       </div>
-      <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" style="display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;height:48px;padding:0 28px;border-radius:10px;font-size:15px;font-weight:700;color:#fff;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 10px 30px hsla(214,100%,43%,.35);transition:transform .3s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.05)">Falar com especialista</a>
+      <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" data-track-id="cta-whatsapp-header" data-track-sub="whatsapp" data-track-pos="Header" style="display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;height:48px;padding:0 28px;border-radius:10px;font-size:15px;font-weight:700;color:#fff;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 10px 30px hsla(214,100%,43%,.35);transition:transform .3s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.05)">Falar com especialista</a>
     </div>
   </nav>
 </header>
@@ -563,7 +563,7 @@
   <div style="max-width:1000px;margin:0 auto">
     <span style="display:inline-block;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.85);margin:0 0 18px">Fale agora</span>
     <p style="color:rgba(255,255,255,.9);font-size:clamp(16px,2vw,20px);line-height:1.6;margin:0 auto 30px;max-width:560px">Chame a nossa equipe no WhatsApp e comece a captar clientes para o seu escritório hoje.</p>
-    <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" class="td-wrap" style="display:inline-flex;justify-content:center;flex-wrap:nowrap;font-weight:900;letter-spacing:-.01em;font-size:clamp(24px,6vw,74px);line-height:1;color:#fff;text-decoration:none"><span class="td-char">S</span><span class="td-char">E</span><span class="td-char">M</span><span class="td-char" style="margin-left:.38em">F</span><span class="td-char">I</span><span class="td-char">D</span><span class="td-char">E</span><span class="td-char">L</span><span class="td-char">I</span><span class="td-char">D</span><span class="td-char">A</span><span class="td-char">D</span><span class="td-char">E</span></a>
+    <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" data-track-id="cta-whatsapp-resultado" data-track-sub="whatsapp" data-track-pos="Você Paga pelo Resultado" class="td-wrap" style="display:inline-flex;justify-content:center;flex-wrap:nowrap;font-weight:900;letter-spacing:-.01em;font-size:clamp(24px,6vw,74px);line-height:1;color:#fff;text-decoration:none"><span class="td-char">S</span><span class="td-char">E</span><span class="td-char">M</span><span class="td-char" style="margin-left:.38em">F</span><span class="td-char">I</span><span class="td-char">D</span><span class="td-char">E</span><span class="td-char">L</span><span class="td-char">I</span><span class="td-char">D</span><span class="td-char">A</span><span class="td-char">D</span><span class="td-char">E</span></a>
     <p style="color:#fff;font-weight:700;font-size:clamp(15px,1.9vw,20px);margin:30px 0 0">Você continua pelos resultados, não porque está preso a um contrato.</p>
     <p style="color:rgba(255,255,255,.7);font-size:14px;margin:10px 0 0">Passe o mouse e clique para falar com um especialista.</p>
   </div>
@@ -611,7 +611,7 @@
       <span style="display:inline-block;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:hsl(222,100%,62%);margin:0 0 14px">Escala comprovada</span>
       <h3 style="font-size:clamp(30px,4.6vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#fff;margin:0 0 16px;text-wrap:balance">Gestão de tráfego que transforma verba em <span style="color:hsl(222,100%,60%)">contratos assinados</span></h3>
       <p style="color:hsl(217,20%,65%);font-size:18px;line-height:1.6;margin:0">Já investimos mais de R$ 10 milhões em anúncios para escritórios de advocacia — com estratégia, otimização diária e foco total no que realmente importa: contratos fechados.</p>
-      <div><button onClick="{{ openModal }}" style="display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 32px;border:none;border-radius:9999px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 10px 30px hsla(214,100%,43%,.4);transition:transform .2s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.04)">Falar com especialista</button></div>
+      <div><button onClick="{{ openModal }}" data-track-id="cta-escala-comprovada" data-track-sub="formulario" data-track-pos="Escala Comprovada" style="display:inline-flex;align-items:center;justify-content:center;height:54px;padding:0 32px;border:none;border-radius:9999px;font-size:16px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 10px 30px hsla(214,100%,43%,.4);transition:transform .2s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.04)">Falar com especialista</button></div>
     </div>
     <div ref="{{ investRef }}" style="position:relative;width:100%;height:420px;border-radius:24px;overflow:visible;border:1px solid hsl(217,30%,18%);background:linear-gradient(180deg,hsl(222,47%,10%),hsl(222,47%,7%))"><div style="position:absolute;inset:0;overflow:hidden;border-radius:24px">
       <svg viewBox="0 0 600 260" preserveAspectRatio="none" style="position:absolute;left:0;bottom:0;width:100%;height:62%"><defs><linearGradient id="megaAreaFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="hsl(214,100%,52%)" stop-opacity="0.4"></stop><stop offset="100%" stop-color="hsl(214,100%,52%)" stop-opacity="0"></stop></linearGradient></defs><path d="M0,210 C90,205 130,175 190,158 C250,140 290,116 350,96 C410,76 470,52 600,26 L600,260 L0,260 Z" fill="url(#megaAreaFill)"></path><path d="M0,210 C90,205 130,175 190,158 C250,140 290,116 350,96 C410,76 470,52 600,26" fill="none" stroke="hsl(214,100%,58%)" stroke-width="3"></path></svg>
@@ -682,7 +682,7 @@
         <span style="display:inline-flex;align-items:center;gap:8px;border-radius:9999px;border:1px solid hsla(214,100%,43%,.35);background:hsla(214,100%,43%,.12);padding:6px 16px;font-size:13px;font-weight:600;letter-spacing:.05em;color:hsl(214,100%,56%)">MÉTODO MEGA ADS</span>
         <h2 style="font-size:clamp(30px,4.6vw,52px);font-weight:800;line-height:1.08;letter-spacing:-.02em;color:#fff;margin:0;text-wrap:balance">Feche em 6 meses o que seu escritório levaria 2 anos</h2>
         <p style="font-size:19px;line-height:1.6;color:#dbeafe;margin:0">Nossos parceiros já somam mais de <strong style="color:hsl(214,100%,56%)">R$ 477 mil em contratos assinados em apenas 4 meses</strong>. Você recebe o cliente pronto — com o contrato de honorários e a procuração já assinados na sua mão.</p>
-        <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" style="display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 36px;border-radius:9999px;font-size:17px;font-weight:700;color:#fff;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 12px 40px hsla(214,100%,43%,.4);transition:transform .25s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.04)">Quero escalar meu escritório<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
+        <a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" data-track-id="cta-whatsapp-prova-social" data-track-sub="whatsapp" data-track-pos="Prova Social" style="display:inline-flex;align-items:center;gap:10px;height:56px;padding:0 36px;border-radius:9999px;font-size:17px;font-weight:700;color:#fff;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 12px 40px hsla(214,100%,43%,.4);transition:transform .25s;animation:mega-cta-glow 2.4s ease-in-out infinite" style-hover="transform:scale(1.04)">Quero escalar meu escritório<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></a>
       </div>
     </div>
   </div>
@@ -788,7 +788,7 @@
     <img decoding="async" src="assets/logo.png" alt="Mega ADS - Agência de Marketing Jurídico" style="height:46px;width:auto">
     <p style="max-width:480px;color:hsl(217,20%,65%);line-height:1.6;font-weight:500;margin:0">Aceleradora de escritórios de advocacia. Captamos clientes para advogados de ponta a ponta — do tráfego ao contrato assinado.</p>
     <div style="display:flex;gap:16px;margin-top:4px"><a href="https://www.facebook.com/megaads.agencia" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="width:42px;height:42px;border-radius:10px;background:hsl(222,47%,12%);display:flex;align-items:center;justify-content:center;color:hsl(214,100%,56%);transition:all .2s" style-hover="background:hsla(214,100%,43%,.2);transform:translateY(-2px)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a><a href="https://www.instagram.com/megaadsagencia" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="width:42px;height:42px;border-radius:10px;background:hsl(222,47%,12%);display:flex;align-items:center;justify-content:center;color:hsl(214,100%,56%);transition:all .2s" style-hover="background:hsla(214,100%,43%,.2);transform:translateY(-2px)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg></a><a href="https://www.linkedin.com/in/ag%C3%AAncia-mega-ads-b71134341/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="width:42px;height:42px;border-radius:10px;background:hsl(222,47%,12%);display:flex;align-items:center;justify-content:center;color:hsl(214,100%,56%);transition:all .2s" style-hover="background:hsla(214,100%,43%,.2);transform:translateY(-2px)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>    </div>
-    <nav style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:8px;font-size:14px;font-weight:500"><a href="#home" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Home</a><a href="#intro" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Serviços</a><a href="#portfolio-2" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Portfólio</a><a href="#faq" style="color:hsl(217,20%,65%)" style-hover="color:#fff">FAQ</a><a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Contato</a>    </nav>
+    <nav style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:8px;font-size:14px;font-weight:500"><a href="#home" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Home</a><a href="#intro" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Serviços</a><a href="#portfolio-2" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Portfólio</a><a href="#faq" style="color:hsl(217,20%,65%)" style-hover="color:#fff">FAQ</a><a href="{{ waUrl }}" target="_blank" rel="noopener noreferrer" onClick="{{ openModal }}" data-track-id="cta-whatsapp-rodape" data-track-sub="whatsapp" data-track-pos="Rodapé" style="color:hsl(217,20%,65%)" style-hover="color:#fff">Contato</a>    </nav>
   </div>
   <div style="position:relative;z-index:2;max-width:1120px;margin:22px auto 0;padding:0 24px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:center;color:hsl(217,20%,55%);font-size:14px">
     <span>© 2026 Mega ADS. Todos os direitos reservados.</span><span style="opacity:.5">·</span><span>De advogado para advogado.</span>
@@ -831,7 +831,7 @@
       <p style="margin:4px 0 0;font-size:13px;color:#475569;line-height:1.4">{{ bubbleText }}</p>
     </div>
   </sc-if>
-  <button onClick="{{ openModal }}" aria-label="Falar com nossa atendente" style="position:relative;width:64px;height:64px;border-radius:50%;border:none;padding:0;background:transparent;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);animation:mega-fab 2.4s ease-in-out infinite">
+  <button onClick="{{ openModal }}" data-track-id="cta-fab-atendente" data-track-sub="formulario" data-track-pos="Botão Flutuante" aria-label="Falar com nossa atendente" style="position:relative;width:64px;height:64px;border-radius:50%;border:none;padding:0;background:transparent;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.5);animation:mega-fab 2.4s ease-in-out infinite">
     <span style="position:absolute;inset:-5px;border-radius:50%;border:2px solid #22c55e;animation:mega-ring 2.4s ease-out infinite;pointer-events:none"></span>
     <img decoding="async" src="https://randomuser.me/api/portraits/women/79.jpg" alt="Atendente Mega ADS" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid hsl(217,30%,24%);display:block;background:#111827">
     <span style="position:absolute;right:2px;bottom:2px;width:15px;height:15px;border-radius:50%;background:#22c55e;border:2.5px solid #080c17"></span>
@@ -1446,6 +1446,28 @@ class Component extends DCLogic {
         img.src = base + '?' + qs;
         this._leadPing = img;
         try { fetch(base + '?' + qs, { mode: 'no-cors', keepalive: true }).catch(function(){}); } catch (_) {}
+      } catch (_) {}
+      // Envio paralelo para o painel de analytics (não bloqueia o redirect do WhatsApp)
+      try {
+        let visitante = '';
+        try { if (window.painel && typeof window.painel.visitante === 'function') visitante = window.painel.visitante() || ''; } catch (_) {}
+        let idem = '';
+        try { idem = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2)); } catch (_) { idem = Date.now() + '-' + Math.random().toString(36).slice(2); }
+        const body = new URLSearchParams({
+          nome: fNome.trim(),
+          email: fEmail.trim(),
+          telefone: fWhats.trim(),
+          formulario: 'Formulário Principal',
+          visitante: visitante,
+          idempotencia: idem
+        });
+        fetch('https://johny-rasta.vercel.app/api/forms/sit_038a2d476f83', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: body.toString(),
+          keepalive: true,
+          mode: 'no-cors'
+        }).catch(function(){});
       } catch (_) {}
     }
     const url = 'https://api.whatsapp.com/send/?phone=5548991006505&type=phone_number&app_absent=0&text=' + encodeURIComponent('Olá! Quero escalar meu escritório, entender sobre marketing para advogados');
