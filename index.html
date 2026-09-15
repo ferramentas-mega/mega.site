@@ -1417,6 +1417,23 @@ class Component extends DCLogic {
   setEmail = (e) => this.setState({ fEmail: e.target.value });
   setWhats = (e) => this.setState({ fWhats: e.target.value });
   dismissBubble = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ bubbleOpen: false }); };
+  // UUID v4. O endpoint do painel valida o formato, então o fallback para
+  // navegadores sem crypto.randomUUID também precisa ser um UUID de verdade.
+  _uuid = () => {
+    try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (_) {}
+    try {
+      const b = new Uint8Array(16);
+      crypto.getRandomValues(b);
+      b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+      const h = Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('');
+      return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+    } catch (_) {}
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    });
+  };
+
   submitForm = (e) => {
     if (e && e.preventDefault) e.preventDefault();
     const { fNome, fEmail, fWhats } = this.state;
@@ -1447,26 +1464,43 @@ class Component extends DCLogic {
         this._leadPing = img;
         try { fetch(base + '?' + qs, { mode: 'no-cors', keepalive: true }).catch(function(){}); } catch (_) {}
       } catch (_) {}
-      // Envio paralelo para o painel de analytics (não bloqueia o redirect do WhatsApp)
+      // Envio paralelo para o painel de analytics (não bloqueia o redirect do WhatsApp).
       try {
+        // Uma chave por formulário preenchido, mantida entre tentativas: é ela
+        // que impede que um retry de rede vire um segundo lead. Só é trocada
+        // depois de um envio confirmado pelo painel.
+        if (!this._formIdem) this._formIdem = this._uuid();
+        const idem = this._formIdem;
+
+        // O endpoint exige um identificador de visitante com 8+ caracteres.
+        // Quem bloqueia analytics não tem um — e mesmo assim precisa conseguir
+        // mandar a mensagem, então vai um id efêmero, gerado só para este
+        // envio e não guardado em lugar nenhum.
         let visitante = '';
         try { if (window.painel && typeof window.painel.visitante === 'function') visitante = window.painel.visitante() || ''; } catch (_) {}
-        let idem = '';
-        try { idem = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : (Date.now() + '-' + Math.random().toString(36).slice(2)); } catch (_) { idem = Date.now() + '-' + Math.random().toString(36).slice(2); }
+        if (!visitante || visitante.length < 8) visitante = 'anon-' + this._uuid().replace(/-/g, '').slice(0, 16);
+
         const body = new URLSearchParams({
+          formulario: 'Formulário Principal',
           nome: fNome.trim(),
           email: fEmail.trim(),
           telefone: fWhats.trim(),
-          formulario: 'Formulário Principal',
+          caminho: (typeof location !== 'undefined' ? (location.pathname || '/') : '/'),
           visitante: visitante,
           idempotencia: idem
         });
+        // `cors` de propósito: o endpoint responde com os cabeçalhos, e sem ler
+        // a resposta não haveria como saber que o envio foi aceito — nem quando
+        // trocar a chave de idempotência.
         fetch('https://johny-rasta.vercel.app/api/forms/sit_038a2d476f83', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
           body: body.toString(),
-          keepalive: true,
-          mode: 'no-cors'
+          keepalive: true
+        }).then((r) => {
+          // Só um envio confirmado libera uma chave nova. Falha mantém a chave,
+          // para que a próxima tentativa seja reconhecida como a mesma.
+          if (r && r.ok && this._formIdem === idem) this._formIdem = null;
         }).catch(function(){});
       } catch (_) {}
     }
