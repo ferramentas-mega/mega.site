@@ -1472,36 +1472,48 @@ class Component extends DCLogic {
         if (!this._formIdem) this._formIdem = this._uuid();
         const idem = this._formIdem;
 
-        // O endpoint exige um identificador de visitante com 8+ caracteres.
-        // Quem bloqueia analytics não tem um — e mesmo assim precisa conseguir
-        // mandar a mensagem, então vai um id efêmero, gerado só para este
-        // envio e não guardado em lugar nenhum.
+        // O identificador de visitante vem do coletor quando ele existe. Quem
+        // bloqueia analytics não tem um, e mesmo assim precisa conseguir mandar
+        // a mensagem: o campo vai vazio, como manda a documentação do painel.
         let visitante = '';
         try { if (window.painel && typeof window.painel.visitante === 'function') visitante = window.painel.visitante() || ''; } catch (_) {}
-        if (!visitante || visitante.length < 8) visitante = 'anon-' + this._uuid().replace(/-/g, '').slice(0, 16);
 
-        const body = new URLSearchParams({
-          formulario: 'Formulário Principal',
-          nome: fNome.trim(),
-          email: fEmail.trim(),
-          telefone: fWhats.trim(),
-          caminho: (typeof location !== 'undefined' ? (location.pathname || '/') : '/'),
-          visitante: visitante,
-          idempotencia: idem
-        });
-        // `cors` de propósito: o endpoint responde com os cabeçalhos, e sem ler
-        // a resposta não haveria como saber que o envio foi aceito — nem quando
-        // trocar a chave de idempotência.
-        fetch('https://johny-rasta.vercel.app/api/forms/sit_038a2d476f83', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body: body.toString(),
-          keepalive: true
-        }).then((r) => {
+        const enviar = (vis) => {
+          const body = new URLSearchParams({
+            formulario: 'Formulário Principal',
+            nome: fNome.trim(),
+            email: fEmail.trim(),
+            telefone: fWhats.trim(),
+            caminho: (typeof location !== 'undefined' ? (location.pathname || '/') : '/'),
+            visitante: vis,
+            idempotencia: idem
+          });
+          // `cors` de propósito: o endpoint responde com os cabeçalhos, e sem
+          // ler a resposta não haveria como saber que o envio foi aceito — nem
+          // quando trocar a chave de idempotência.
+          return fetch('https://johny-rasta.vercel.app/api/forms/sit_038a2d476f83', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body: body.toString(),
+            keepalive: true
+          });
+        };
+
+        const tentar = (vis, jaRepetiu) => enviar(vis).then((r) => {
           // Só um envio confirmado libera uma chave nova. Falha mantém a chave,
           // para que a próxima tentativa seja reconhecida como a mesma.
-          if (r && r.ok && this._formIdem === idem) this._formIdem = null;
+          if (r && r.ok) { if (this._formIdem === idem) this._formIdem = null; return; }
+          // Houve uma versão do painel que exigia o identificador de visitante e
+          // recusava o envio sem ele. Se for o caso, repete UMA vez com um id
+          // efêmero (não guardado, não é rastreador) para a mensagem não se
+          // perder. A chave de idempotência é a mesma: se o primeiro envio tiver
+          // entrado, o painel reconhece e não cria um segundo lead.
+          if (!jaRepetiu && !visitante && r && r.status === 422) {
+            return tentar('anon-' + this._uuid().replace(/-/g, '').slice(0, 16), true);
+          }
         }).catch(function(){});
+
+        tentar(visitante, false);
       } catch (_) {}
     }
     const url = 'https://api.whatsapp.com/send/?phone=5548991006505&type=phone_number&app_absent=0&text=' + encodeURIComponent('Olá! Quero escalar meu escritório, entender sobre marketing para advogados');
