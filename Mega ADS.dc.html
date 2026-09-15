@@ -812,9 +812,11 @@
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Nome</label><input class="mega-input" value="{{ fNome }}" onChange="{{ setNome }}" type="text" placeholder="Seu nome" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Email</label><input class="mega-input" value="{{ fEmail }}" onChange="{{ setEmail }}" type="email" placeholder="Seu melhor email" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
         <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">WhatsApp</label><input class="mega-input" value="{{ fWhats }}" onChange="{{ setWhats }}" type="tel" placeholder="(DDD) 9 9999-9999" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></div>
+        <div><label style="display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:8px">Mensagem <span style="font-weight:500;color:hsl(217,20%,55%)">(opcional)</span></label><textarea class="mega-input" value="{{ fMsg }}" onChange="{{ setMsg }}" rows="3" placeholder="Conte rapidamente sobre o seu escritório" style="width:100%;box-sizing:border-box;background:hsl(222,47%,10%);border:1px solid hsl(217,30%,20%);border-radius:12px;padding:15px 16px;color:#fff;font-size:15px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s" style-focus="border-color:hsl(214,100%,43%)"></textarea></div>
         <sc-for list="{{ utmFields }}" as="u" hint-placeholder-count="0"><input type="hidden" name="{{ u.name }}" value="{{ u.value }}"></sc-for>
         <sc-if value="{{ showErr }}" hint-placeholder-val="{{ false }}"><p style="color:#f87171;font-size:13px;margin:-4px 0 0;text-align:center">{{ formErr }}</p></sc-if>
-        <button type="submit" style="width:100%;border:none;border-radius:12px;padding:17px;font-size:15px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#fff;cursor:pointer;font-family:inherit;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 12px 30px hsla(145,72%,38%,.4);transition:transform .2s" style-hover="transform:scale(1.02)">Receber minha análise gratuita →</button>
+        <sc-if value="{{ showStatus }}" hint-placeholder-val="{{ false }}"><p role="status" style="color:hsl(145,66%,52%);font-size:13px;margin:-4px 0 0;text-align:center">{{ formStatus }}</p></sc-if>
+        <button type="submit" disabled="{{ enviando }}" style="width:100%;border:none;border-radius:12px;padding:17px;font-size:15px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#fff;cursor:pointer;font-family:inherit;background-image:linear-gradient(90deg,hsl(145,74%,32%),hsl(145,66%,42%));box-shadow:0 12px 30px hsla(145,72%,38%,.4);transition:transform .2s" style-hover="transform:scale(1.02)">{{ rotuloEnvio }}</button>
       </form>
       <p style="display:flex;align-items:center;justify-content:center;gap:6px;color:hsl(217,20%,55%);font-size:12px;margin:18px 0 0"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Seus dados estão seguros. Nada de spam.</p>
     </div>
@@ -847,7 +849,7 @@ class Component extends DCLogic {
     scrolled: false,
     openFaq: 'item-1',
     saveStatus: 'idle',
-    modalOpen: false, fNome: '', fEmail: '', fWhats: '', formErr: '', bubbleOpen: false, bubbleIdx: 0, invCount: 'R$ 0M+',
+    modalOpen: false, fNome: '', fEmail: '', fWhats: '', fMsg: '', formErr: '', formStatus: '', enviando: false, bubbleOpen: false, bubbleIdx: 0, invCount: 'R$ 0M+',
     cEscritorios: '+3500', cCampanhas: '+4500', cInvestido: '+10M',
     tlFill: 0, tlFill2: 0,
     carStep: 0, carPaused: false,
@@ -1410,12 +1412,13 @@ class Component extends DCLogic {
     try { document.body.style.overflow = 'hidden'; } catch (_) {}
   };
   closeModal = () => {
-    this.setState({ modalOpen: false, formErr: '' });
+    this.setState({ modalOpen: false, formErr: '', formStatus: '', enviando: false });
     try { document.body.style.overflow = ''; } catch (_) {}
   };
   setNome = (e) => this.setState({ fNome: e.target.value });
   setEmail = (e) => this.setState({ fEmail: e.target.value });
   setWhats = (e) => this.setState({ fWhats: e.target.value });
+  setMsg = (e) => this.setState({ fMsg: e.target.value });
   dismissBubble = (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ bubbleOpen: false }); };
   // UUID v4. O endpoint do painel valida o formato, então o fallback para
   // navegadores sem crypto.randomUUID também precisa ser um UUID de verdade.
@@ -1436,8 +1439,10 @@ class Component extends DCLogic {
 
   submitForm = (e) => {
     if (e && e.preventDefault) e.preventDefault();
-    const { fNome, fEmail, fWhats } = this.state;
+    const { fNome, fEmail, fWhats, fMsg, enviando } = this.state;
+    if (enviando) return;
     if (!fNome.trim() || !fWhats.trim()) { this.setState({ formErr: 'Por favor, preencha seu nome e WhatsApp.' }); return; }
+    this.setState({ formErr: '', formStatus: 'Enviando…', enviando: true });
     const phone = '5548991006505';
     let msg = 'Olá! Meu nome é ' + fNome.trim() + ' e quero escalar meu escritório com marketing jurídico.';
     if (fEmail.trim()) msg += ' E-mail: ' + fEmail.trim() + '.';
@@ -1453,6 +1458,7 @@ class Component extends DCLogic {
         const qs = 'nome=' + encodeURIComponent(fNome.trim()) +
           '&email=' + encodeURIComponent(fEmail.trim()) +
           '&whatsapp=' + encodeURIComponent(fWhats.trim()) +
+          '&mensagem=' + encodeURIComponent(fMsg.trim()) +
           '&utm_source=' + encodeURIComponent(u.utm_source || '') +
           '&utm_medium=' + encodeURIComponent(u.utm_medium || '') +
           '&utm_campaign=' + encodeURIComponent(u.utm_campaign || '') +
@@ -1484,6 +1490,7 @@ class Component extends DCLogic {
             nome: fNome.trim(),
             email: fEmail.trim(),
             telefone: fWhats.trim(),
+            mensagem: fMsg.trim(),
             caminho: (typeof location !== 'undefined' ? (location.pathname || '/') : '/'),
             visitante: vis,
             idempotencia: idem
@@ -1499,10 +1506,25 @@ class Component extends DCLogic {
           });
         };
 
+        // Confirmação vem do SERVIDOR, não do submit do navegador: enquanto a
+        // resposta não chega, nada foi recebido.
+        const confirmado = () => {
+          if (this._formIdem === idem) this._formIdem = null;
+          this.setState({
+            formStatus: 'Recebemos sua mensagem.',
+            enviando: false,
+            fNome: '', fEmail: '', fWhats: '', fMsg: '',
+          });
+        };
+        const recusado = (texto) => this.setState({
+          formStatus: (texto || 'Não foi possível enviar.') + ' Tente novamente.',
+          enviando: false,
+        });
+
         const tentar = (vis, jaRepetiu) => enviar(vis).then((r) => {
           // Só um envio confirmado libera uma chave nova. Falha mantém a chave,
           // para que a próxima tentativa seja reconhecida como a mesma.
-          if (r && r.ok) { if (this._formIdem === idem) this._formIdem = null; return; }
+          if (r && r.ok) { confirmado(); return; }
           // Houve uma versão do painel que exigia o identificador de visitante e
           // recusava o envio sem ele. Se for o caso, repete UMA vez com um id
           // efêmero (não guardado, não é rastreador) para a mensagem não se
@@ -1511,10 +1533,11 @@ class Component extends DCLogic {
           if (!jaRepetiu && !visitante && r && r.status === 422) {
             return tentar('anon-' + this._uuid().replace(/-/g, '').slice(0, 16), true);
           }
-        }).catch(function(){});
+          return r.json().then((c) => recusado(c && c.erro)).catch(() => recusado(null));
+        }).catch(() => recusado(null));
 
         tentar(visitante, false);
-      } catch (_) {}
+      } catch (_) { this.setState({ formStatus: '', enviando: false }); }
     }
     const url = 'https://api.whatsapp.com/send/?phone=5548991006505&type=phone_number&app_absent=0&text=' + encodeURIComponent('Olá! Quero escalar meu escritório, entender sobre marketing para advogados');
     try {
@@ -1524,7 +1547,10 @@ class Component extends DCLogic {
       a.click();
       setTimeout(() => { try { a.remove(); } catch (e) {} }, 0);
     } catch (_) { try { window.open(url, '_blank', 'noopener'); } catch (e2) {} }
-    this.closeModal();
+    // O modal NÃO fecha mais aqui. Fechar no mesmo instante do clique apagava a
+    // única resposta honesta que existe: a confirmação do servidor, que chega
+    // depois. Quem voltar da aba do WhatsApp lê "Recebemos sua mensagem." — ou
+    // o motivo da recusa, e pode tentar de novo com a mesma chave.
   };
 
   glowMove = (e) => {
@@ -1717,8 +1743,10 @@ class Component extends DCLogic {
       ready: s.ready,
       fxBgLayer, fxLeft, fxRight, fxWords, fxSubWords, fxTrackStyle, fxNum, fxTotal, fxTag, fxFillStyle, fxRef, fxOverlayStyle,
       modalOpen: s.modalOpen, openModal: this.openModal, closeModal: this.closeModal, submitForm: this.submitForm, stopProp: this.stopProp,
-      setNome: this.setNome, setEmail: this.setEmail, setWhats: this.setWhats,
-      fNome: s.fNome, fEmail: s.fEmail, fWhats: s.fWhats, formErr: s.formErr, showErr: !!s.formErr,
+      setNome: this.setNome, setEmail: this.setEmail, setWhats: this.setWhats, setMsg: this.setMsg,
+      fNome: s.fNome, fEmail: s.fEmail, fWhats: s.fWhats, fMsg: s.fMsg, formErr: s.formErr, showErr: !!s.formErr,
+      formStatus: s.formStatus, showStatus: !!s.formStatus, enviando: s.enviando,
+      rotuloEnvio: s.enviando ? 'Enviando…' : 'Receber minha análise gratuita →',
       bubbleOpen: s.bubbleOpen, dismissBubble: this.dismissBubble,
       bubbleTitle: (this.bubbleMsgs && this.bubbleMsgs[s.bubbleIdx] ? this.bubbleMsgs[s.bubbleIdx].title : ''),
       bubbleText: (this.bubbleMsgs && this.bubbleMsgs[s.bubbleIdx] ? this.bubbleMsgs[s.bubbleIdx].text : ''),
