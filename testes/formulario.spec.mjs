@@ -33,7 +33,7 @@ async function preparar(page, respostaDoPainel) {
     await rota.fulfill(respostaDoPainel);
   });
   await ctx.route('**/script.google.com/**', (r) => r.fulfill({ status: 200, body: '' }));
-  await ctx.route('**/johny-rasta.vercel.app/t.js', (r) => r.fulfill({ status: 200, body: '' }));
+  await ctx.route('**/app.johnyweb.com/t.js', (r) => r.fulfill({ status: 200, body: '' }));
   await ctx.route('**/api.whatsapp.com/**', (r) =>
     r.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: 'whatsapp' }));
   return envios;
@@ -86,7 +86,7 @@ async function preencher(form, { nome = 'Joana Teste', email = 'joana@exemplo.co
 test.describe('instalação do rastreamento', () => {
   test('a tag do coletor aparece uma vez só', async ({ page }) => {
     await abrirSite(page);
-    const tags = page.locator('script[src*="johny-rasta.vercel.app/t.js"]');
+    const tags = page.locator('script[src*="app.johnyweb.com/t.js"]');
     await expect(tags).toHaveCount(1);
     await expect(tags).toHaveAttribute('data-site', 'sit_038a2d476f83');
   });
