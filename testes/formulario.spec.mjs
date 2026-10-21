@@ -203,3 +203,23 @@ test.describe('formulário do popup', () => {
     }
   });
 });
+
+test.describe('menu flutuante do topo (gradient menu)', () => {
+  // Início, Portfólio, FAQ e Contato continuam rolando a própria página (não
+  // tocados). Sobre e Serviços viram link real para página própria — é a
+  // mudança desta rodada, e a mais fácil de quebrar sem perceber: o item
+  // continua com a MESMA aparência (CSS .gm-item), mas por dentro trocou de
+  // onClick de scroll para <a href> de verdade.
+  test('Sobre e Serviços navegam para páginas reais, não rolam a home', async ({ page }) => {
+    await abrirSite(page);
+    const itens = page.locator('.gm-item');
+    await expect(itens).toHaveCount(6);
+
+    await itens.nth(1).locator('a').click();
+    await expect(page).toHaveURL(/\/sobre\/$/);
+
+    await page.goBack();
+    await itens.nth(2).locator('a').click();
+    await expect(page).toHaveURL(/\/servicos\/$/);
+  });
+});
