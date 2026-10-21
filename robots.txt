@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /portfolio/
+Disallow: /trabalhe-conosco/
+Disallow: /servicos/seo-para-advogados/
 
 Sitemap: https://megaads.com.br/sitemap.xml

@@ -7,8 +7,17 @@ deployment:
     # index.html (obrigatório) + pasta assets
     - /bin/cp -R index.html "$DEPLOYPATH/"
     - /bin/cp -R assets "$DEPLOYPATH/"
-    # *.js e *.css da raiz (ex.: support.js) e .htaccess, se existirem.
-    # nullglob evita erro quando algum padrão não casa com nenhum arquivo.
-    - /bin/bash -c 'shopt -s nullglob dotglob; for f in *.js *.css .htaccess robots.txt sitemap.xml; do /bin/cp -R "$f" "$DEPLOYPATH/"; done'
-    # NUNCA copiar: node_modules, src, components, lib, .git, README.md,
-    # *.dc.html ou quaisquer arquivos internos (não são referenciados acima).
+    # *.js e *.css da raiz (ex.: support.js), .htaccess, robots.txt, sitemap.xml
+    # e 404.html, se existirem. nullglob evita erro quando algum padrão não
+    # casa com nenhum arquivo.
+    - /bin/bash -c 'shopt -s nullglob dotglob; for f in *.js *.css .htaccess robots.txt sitemap.xml 404.html; do /bin/cp -R "$f" "$DEPLOYPATH/"; done'
+    # Páginas novas geradas por build/run.mjs (cada uma é uma pasta com seu
+    # index.html — URL limpa, sem extensão). Páginas em rascunho (trabalhe-
+    # conosco, servicos/seo-para-advogados, portfolio) também são copiadas:
+    # têm noindex e ficam fora do menu/sitemap, mas publicar o arquivo não é
+    # o mesmo que divulgá-lo. Se isso não for desejado, remova a pasta
+    # correspondente desta lista antes do deploy.
+    - /bin/bash -c 'shopt -s nullglob dotglob; for d in sobre metodo contato servicos resultados portfolio especialidades conteudos politica-de-privacidade trabalhe-conosco; do [ -d "$d" ] && /bin/cp -R "$d" "$DEPLOYPATH/"; done'
+    # NUNCA copiar: build/ (gerador das páginas acima, só roda no computador
+    # de quem edita o site), testes/ (suíte Playwright), node_modules, .git,
+    # README.md, PENDENCIAS.md, PORTFOLIO-INVENTARIO.md, *.dc.html.

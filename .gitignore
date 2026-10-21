@@ -1,8 +1,11 @@
-# Dependencies / build (não usados neste site estático, mas prevenidos)
+# Dependencies (não usadas neste site estático, mas prevenidas)
 node_modules/
 dist/
-build/
 .cache/
+# NÃO ignore build/: desde a expansão institucional, é o gerador real das
+# páginas novas (nav.mjs, partials, layouts, conteúdo por página) — é
+# código-fonte, não artefato. O HTML gerado por ele fica fora daqui (vai
+# para a raiz e para cada pasta de página), build/ em si é só os módulos.
 
 # Ambiente / segredos — NUNCA versionar
 .env

@@ -2,6 +2,10 @@
 DirectoryIndex index.html
 Options -Indexes
 
+# 404 com status real (não um redirect para a home, que devolveria 200 e
+# confundiria o Google sobre a página existir ou não).
+ErrorDocument 404 /404.html
+
 # Compressão
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml

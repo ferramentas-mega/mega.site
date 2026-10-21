@@ -13,7 +13,7 @@
  * repositório. Se o teste passa, passa contra o arquivo que vai para o ar.
  */
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import { createReadStream } from 'node:fs';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -75,13 +75,38 @@ const servidor = createServer(async (req, res) => {
 
     // Qualquer outro arquivo sai da raiz do site. `normalize` + o prefixo
     // impedem que `../` escape do diretório.
-    const alvo = join(RAIZ, normalize(caminho).replace(/^(\.\.[/\\])+/, ''));
+    let alvo = join(RAIZ, normalize(caminho).replace(/^(\.\.[/\\])+/, ''));
     if (!alvo.startsWith(RAIZ)) {
       res.writeHead(403);
       return res.end('fora da raiz');
     }
+    // DirectoryIndex, como o .htaccess real: /sobre/ -> sobre/index.html,
+    // e /sobre (sem barra) também cai aqui, para bater com o que o Apache faz.
+    if (!extname(alvo)) {
+      alvo = join(alvo, 'index.html');
+    }
+
+    // Verifica ANTES de escrever qualquer cabeçalho — escrever 200 e só
+    // depois descobrir que o arquivo não existe tentaria escrever os
+    // cabeçalhos duas vezes (ERR_HTTP_HEADERS_SENT), porque o stream só
+    // emite 'error' depois que a resposta já teria começado.
+    try {
+      await stat(alvo);
+    } catch {
+      // 404 real, servindo 404.html quando existir — espelha o ErrorDocument
+      // do .htaccess de produção.
+      try {
+        const corpo = await readFile(join(RAIZ, '404.html'));
+        res.writeHead(404, { 'Content-Type': TIPOS['.html'] });
+        return res.end(corpo);
+      } catch {
+        res.writeHead(404);
+        return res.end('não encontrado');
+      }
+    }
+
     res.writeHead(200, { 'Content-Type': TIPOS[extname(alvo)] ?? 'application/octet-stream' });
-    return createReadStream(alvo).on('error', () => { res.writeHead(404); res.end(); }).pipe(res);
+    return createReadStream(alvo).pipe(res);
   } catch {
     res.writeHead(404);
     res.end('não encontrado');
