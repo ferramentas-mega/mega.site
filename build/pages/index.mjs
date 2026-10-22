@@ -15,10 +15,7 @@ import { page as svEstruturacaoComercial } from './servico-estruturacao-comercia
 import { page as svIaAtendimento } from './servico-ia-atendimento.mjs';
 import { page as svSeo } from './servico-seo.mjs';
 import { page as especialidades } from './especialidades.mjs';
-import { page as espTrabalhista } from './especialidade-trabalhista.mjs';
-import { page as espPrevidenciario } from './especialidade-previdenciario.mjs';
-import { page as espFamilia } from './especialidade-familia.mjs';
-import { page as espCriminalista } from './especialidade-criminalista.mjs';
+import { RENDERERS_ESPECIALIDADES } from './especialidade-area.mjs';
 import { page as conteudos } from './conteudos.mjs';
 import { page as artQuantoInvestir } from './artigo-quanto-investir.mjs';
 import { page as artGoogleOuMeta } from './artigo-google-ou-meta.mjs';
@@ -45,10 +42,7 @@ export const RENDERERS = {
   '/servicos/ia-para-atendimento-juridico/': svIaAtendimento,
   '/servicos/seo-para-advogados/': svSeo,
   '/especialidades/': especialidades,
-  '/especialidades/marketing-para-advogados-trabalhistas/': espTrabalhista,
-  '/especialidades/marketing-para-advogados-previdenciarios/': espPrevidenciario,
-  '/especialidades/marketing-para-advogados-de-familia/': espFamilia,
-  '/especialidades/marketing-para-advogados-criminalistas/': espCriminalista,
+  ...RENDERERS_ESPECIALIDADES,
   '/conteudos/': conteudos,
   '/conteudos/quanto-investir-google-ads-advogados/': artQuantoInvestir,
   '/conteudos/google-ads-ou-meta-ads-advogados/': artGoogleOuMeta,

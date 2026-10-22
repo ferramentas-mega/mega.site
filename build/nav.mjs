@@ -7,11 +7,45 @@
  *  - 'rascunho'   → existe como arquivo, tem noindex, NÃO entra em menu,
  *                   rodapé nem sitemap. Serve para revisão interna.
  */
+import { ESPECIALIDADES, GRUPOS } from './especialidades-dados.mjs';
+
 export const SITE = {
   nome: 'Mega ADS',
   dominio: 'https://megaads.com.br',
   whatsapp: '5548991006505', // número já validado e em produção — ver PENDENCIAS.md sobre o número divergente do zip
 };
+
+// Deriva as 36 entradas de PAGINAS (central + 35 áreas) a partir do dado
+// único em especialidades-dados.mjs — nenhuma URL duplicada entre os dois
+// arquivos.
+export const ESPECIALIDADES_PAGINAS = [
+  { url: '/especialidades/', tipo: 'listagem-especialidades', titulo: 'Para quem', status: 'publicada', fase: 3, menu: 'Para quem' },
+  ...ESPECIALIDADES.map((e) => ({
+    url: `/especialidades/${e.slug === 'trabalhista' ? 'marketing-para-advogados-trabalhistas'
+      : e.slug === 'previdenciario' ? 'marketing-para-advogados-previdenciarios'
+      : e.slug === 'familia' ? 'marketing-para-advogados-de-familia'
+      : e.slug === 'criminalista' ? 'marketing-para-advogados-criminalistas'
+      : e.slug === 'multiplas-areas' ? 'marketing-para-escritorios-multiplas-areas'
+      : e.slug === 'empresarial' ? 'marketing-para-advogados-empresariais'
+      : e.slug === 'societario' ? 'marketing-para-advogados-societarios'
+      : e.slug === 'contratual' ? 'marketing-para-advogados-contratuais'
+      : e.slug === 'tributarista' ? 'marketing-para-advogados-tributaristas'
+      : e.slug === 'bancario' ? 'marketing-para-advogados-bancarios'
+      : e.slug === 'sucessoes' ? 'marketing-para-advogados-de-sucessoes'
+      : e.slug === 'civel' ? 'marketing-para-advogados-civeis'
+      : e.slug === 'consumidor' ? 'marketing-para-advogados-do-consumidor'
+      : e.slug === 'imobiliario' ? 'marketing-para-advogados-imobiliarios'
+      : e.slug === 'condominial' ? 'marketing-para-advogados-condominiais'
+      : e.slug === 'transito' ? 'marketing-para-advogados-de-transito'
+      : `marketing-para-advogados-${e.slug}`}/`,
+    tipo: 'especialidade',
+    titulo: e.titulo,
+    status: 'publicada',
+    fase: 3,
+    grupo: e.grupo,
+    slug: e.slug,
+  })),
+];
 
 export const PAGINAS = [
   // ── Fase 1 — institucional ──────────────────────────────────────────
@@ -38,12 +72,11 @@ export const PAGINAS = [
   { url: '/servicos/seo-para-advogados/', tipo: 'servico', titulo: 'SEO para advogados', status: 'rascunho', fase: 2, menu: 'Soluções',
     pendencia: 'O briefing condiciona esta página à confirmação de que SEO integra a oferta comercial hoje. Não há essa confirmação nos arquivos inspecionados (servicos.html não lista SEO como serviço à parte). Mantida em rascunho até confirmação.' },
 
-  // ── Fase 3 — especialidades ──────────────────────────────────────────
-  { url: '/especialidades/', tipo: 'listagem-especialidades', titulo: 'Para quem', status: 'publicada', fase: 3, menu: 'Para quem' },
-  { url: '/especialidades/marketing-para-advogados-trabalhistas/', tipo: 'especialidade', titulo: 'Marketing para advogados trabalhistas', status: 'publicada', fase: 3, menu: 'Para quem' },
-  { url: '/especialidades/marketing-para-advogados-previdenciarios/', tipo: 'especialidade', titulo: 'Marketing para advogados previdenciários', status: 'publicada', fase: 3, menu: 'Para quem' },
-  { url: '/especialidades/marketing-para-advogados-de-familia/', tipo: 'especialidade', titulo: 'Marketing para advogados de família', status: 'publicada', fase: 3, menu: 'Para quem' },
-  { url: '/especialidades/marketing-para-advogados-criminalistas/', tipo: 'especialidade', titulo: 'Marketing para advogados criminalistas', status: 'publicada', fase: 3, menu: 'Para quem' },
+  // ── Fase 3/4 — especialidades ────────────────────────────────────────
+  // As 36 entradas (central + 35 áreas) vivem em especialidades-dados.mjs,
+  // uma fonte dedicada por serem muitas e por carregarem campos específicos
+  // (grupo, público, canais recomendados) que as demais páginas não têm.
+  ...ESPECIALIDADES_PAGINAS,
 
   // ── Fase 3 — conteúdos ───────────────────────────────────────────────
   { url: '/conteudos/', tipo: 'listagem-conteudos', titulo: 'Conteúdos', status: 'publicada', fase: 3, menuTopo: true },
@@ -67,9 +100,15 @@ export const MENU_SOLUCOES = () =>
   PAGINAS.filter((p) => p.tipo === 'servico' && p.status === 'publicada')
     .map((p) => ({ label: p.titulo.replace(' para advogados', '').replace('IA para atendimento jurídico', 'IA para atendimento'), url: p.url }));
 
-export const MENU_PARA_QUEM = () =>
-  PAGINAS.filter((p) => p.tipo === 'especialidade' && p.status === 'publicada')
-    .map((p) => ({ label: p.titulo.replace('Marketing para advogados ', '').replace('Marketing para advogados de ', ''), url: p.url }));
+// 35 páginas não cabem num submenu em coluna — o submenu mostra os grupos
+// temáticos (cada um aponta pra seção correspondente na central) e um
+// acesso único para a lista completa. As 35 URLs continuam existindo,
+// são linkadas nos cards da própria central e entram no sitemap — só não
+// aparecem soltas aqui.
+export const MENU_PARA_QUEM = () => [
+  ...GRUPOS.map((g) => ({ label: g.titulo, url: `/especialidades/#${g.id}` })),
+  { label: 'Ver todas as especialidades', url: '/especialidades/' },
+];
 
 export const MENU_PRINCIPAL = [
   { label: 'Home', url: '/' },

@@ -154,6 +154,84 @@ ${breadcrumbs(crumbs)}
   });
 }
 
+/**
+ * Página de área de especialidade (Fase 3/4) — estrutura A-I do briefing de
+ * ampliação. Recebe os dados de uma entrada de especialidades-dados.mjs já
+ * combinados com a URL real (vinda de nav.mjs).
+ *
+ * Seção F (projetos relacionados) nunca inventa cliente ou métrica: como
+ * nenhum dos projetos do novo portfólio foi verificado ainda (ver
+ * PORTFOLIO-INVENTARIO.md), toda página mostra o mesmo bloco honesto —
+ * processo em vez de case — até existir material real para aquela área.
+ */
+export function pageEspecialidadeArea(dados) {
+  const crumbs = [{ label: 'Home', url: '/' }, { label: 'Para quem', url: '/especialidades/' }, { label: dados.titulo }];
+  const areaLower = dados.titulo.replace(/^Marketing para (advogados|escritórios) (de |do |da |)/i, '');
+  const canaisResolvidos = (dados.canais || []).map((c) => dados.CANAIS[c]).filter(Boolean);
+  const hrefContato = `/contato/?area=${encodeURIComponent(areaLower)}&origem=${encodeURIComponent(dados.url)}`;
+
+  const body = `
+${breadcrumbs(crumbs)}
+<section class="page-hero container">
+  <span class="kicker">Para quem</span>
+  <h1>${esc(dados.titulo)}</h1>
+  <p class="lede">${dados.lede}</p>
+  <div class="actions">
+    ${ctaWhatsapp({ id: 'cta-especialidade-hero', pos: dados.slug, texto: `Olá! Meu escritório atua com ${areaLower} e quero conversar sobre o meu escritório.`, label: 'Conversar sobre meu escritório' })}
+    ${ctaContato({ id: 'cta-especialidade-hero-form', pos: dados.slug, href: hrefContato })}
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head"><span class="kicker">Quem o escritório atende</span><h2>O perfil de cliente nessa área</h2><p>${dados.quemAtende}</p></div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Desafios de comunicação</span><h2>O que costuma dificultar a captação aqui</h2></div>
+  <div class="grid grid-2">
+    ${dados.desafios.map((d) => `<div class="card"><h3>${esc(d.titulo)}</h3><p>${d.texto}</p></div>`).join('')}
+  </div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Estratégia proposta</span><h2>O que normalmente faz sentido avaliar primeiro</h2><p>${dados.estrategiaTexto}</p></div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Soluções da Mega ADS</span><h2>Onde cada solução entra nessa estratégia</h2></div>
+  <div class="grid grid-3">
+    ${canaisResolvidos.map((c) => `<a class="content-card" href="${c.url}"><div class="body"><h3>${esc(c.label)}</h3></div></a>`).join('')}
+  </div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Projetos relacionados</span><h2>Projetos nesta área</h2>
+    <p>Ainda não temos, no novo portfólio, um projeto confirmado especificamente para ${esc(areaLower)} — e preferimos não mostrar aqui o projeto de outra área só para preencher a seção. Veja como o diagnóstico considera essa área abaixo, ou confira os <a href="/resultados/" style="color:var(--blue-2)">projetos já confirmados</a>.</p>
+  </div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Como o diagnóstico considera essa área</span><h2>O processo para quem atua com ${esc(areaLower)}</h2><p>${dados.processo}</p></div>
+</section>
+
+<section class="section container" style="padding-top:0">
+  <div class="section-head"><span class="kicker">Dúvidas</span><h2>Perguntas de quem atua com ${esc(areaLower)}</h2></div>
+  ${faqList(dados.faq)}
+</section>
+
+<section class="section container" style="padding-top:0">
+  ${ctaBand({ titulo: dados.titulo, texto: 'Fale com um especialista da Mega ADS e entenda se o momento do seu escritório pede captação paga agora.', id: 'cta-especialidade-final', pos: dados.slug, hrefContato })}
+</section>`;
+
+  return renderPage({
+    url: dados.url,
+    title: `${dados.titulo} | Mega ADS`,
+    description: dados.metaDescription,
+    structuredData: [breadcrumbLd(crumbs), faqLd(dados.faq)],
+    body,
+  });
+}
+
 /** Artigo da central de conteúdos (Fase 3). */
 export function pageArtigo(dados) {
   const crumbs = [{ label: 'Home', url: '/' }, { label: 'Conteúdos', url: '/conteudos/' }, { label: dados.title }];

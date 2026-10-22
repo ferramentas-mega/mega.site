@@ -12,8 +12,8 @@ export function ctaWhatsapp({ texto = 'Olá! Quero falar com um especialista da 
   return `<a class="${classe}" href="${waHref(texto)}" target="_blank" rel="noopener noreferrer" data-track-id="${esc(id)}" data-track-sub="whatsapp" data-track-pos="${esc(pos)}">${esc(label)}</a>`;
 }
 
-export function ctaContato({ id, pos, label = 'Preencher formulário', classe = 'btn btn-secondary' } = {}) {
-  return `<a class="${classe}" href="/contato/" data-track-id="${esc(id)}" data-track-sub="form_open" data-track-pos="${esc(pos)}">${esc(label)}</a>`;
+export function ctaContato({ id, pos, label = 'Preencher formulário', classe = 'btn btn-secondary', href = '/contato/' } = {}) {
+  return `<a class="${classe}" href="${esc(href)}" data-track-id="${esc(id)}" data-track-sub="form_open" data-track-pos="${esc(pos)}">${esc(label)}</a>`;
 }
 
 /** Cabeçalho, com submenus montados a partir de build/nav.mjs — uma fonte só. */
@@ -128,14 +128,14 @@ export function faqList(itens, idPrefix = 'faq') {
     </details>`).join('')}</div>`;
 }
 
-export function ctaBand({ titulo, texto, id, pos }) {
+export function ctaBand({ titulo, texto, id, pos, hrefContato }) {
   return `
 <div class="cta-band">
   <h2>${esc(titulo)}</h2>
   <p>${esc(texto)}</p>
   <div class="actions" style="justify-content:center;display:flex;flex-wrap:wrap;gap:12px">
     ${ctaWhatsapp({ id: id || 'cta-band', pos: pos || 'CTA', texto: `Olá! Quero falar com um especialista da Mega ADS sobre: ${titulo}` })}
-    ${ctaContato({ id: (id || 'cta-band') + '-form', pos: pos || 'CTA' })}
+    ${ctaContato({ id: (id || 'cta-band') + '-form', pos: pos || 'CTA', href: hrefContato })}
   </div>
 </div>`;
 }

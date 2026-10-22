@@ -192,3 +192,63 @@ amplo.
   e remonta tudo via JavaScript, o que deixava o FAQ invisível para quem
   não executa JS. Os 18 testes de navegador do formulário continuam
   passando depois dessa mudança.
+
+---
+
+## 10. Ampliação de `/especialidades/` — 36 páginas (central + 35 áreas)
+
+Executado o briefing "AMPLIAÇÃO DO SITE — ESPECIALIDADES JURÍDICAS
+ATENDIDAS PELA MEGA ADS", entregue agendado via `send_later`.
+
+- **Arquitetura**: todo o conteúdo das 35 áreas vive num único arquivo de
+  dados, `build/especialidades-dados.mjs` (inclui a matriz de
+  diferenciação por escrito, no cabeçalho do arquivo, para os 7 pares
+  explicitamente apontados no briefing como risco de sobreposição —
+  família×sucessões, cível×consumidor×bancário, empresarial×societário×
+  contratual, digital×proteção de dados, saúde×médico,
+  administrativo×licitações, internacional×imigração). Um único template
+  (`pageEspecialidadeArea` em `build/layouts.mjs`) renderiza as 35 páginas
+  a partir desse dado — `build/pages/especialidade-area.mjs` faz a ponte
+  entre dado e URL. As 4 páginas antigas (trabalhista, previdenciário,
+  família, criminalista), antes escritas à mão em arquivos separados,
+  foram migradas para esse mesmo dado único e ampliadas para a estrutura
+  A-I do briefing; os 4 arquivos antigos foram removidos.
+- **Nenhum par foi forçado a consolidar**: todos os 7 pares sinalizados
+  como risco têm escopo, público ou jornada de decisão reais e distintos
+  o bastante para justificar página própria — a decisão e a justificativa
+  de cada um estão documentadas no cabeçalho de `especialidades-dados.mjs`.
+- **36 URLs conferidas 1:1 contra a lista do briefing** por script
+  (comparação de conjunto, não checagem visual) — nenhuma diverge.
+- **Seção F (projetos relacionados)** de todas as 35 páginas novas usa o
+  mesmo bloco honesto: nenhum dos 32 projetos do novo portfólio foi
+  verificado nesta sessão (proxy bloqueado — ver seção 7 deste
+  documento), então nenhuma página mostra projeto de outra área
+  "emprestado" nem inventa cliente. Quando o portfólio for verificado e
+  categorizado por área, essa seção é o único ponto a atualizar por
+  página (campo a adicionar em `especialidades-dados.mjs`).
+- **Menu**: 35 páginas não cabem num submenu em coluna. `MENU_PARA_QUEM`
+  agora mostra os 6 grupos temáticos (link para a seção correspondente em
+  `/especialidades/`) + "Ver todas as especialidades" — as 35 URLs
+  continuam existindo, linkadas nos cards da própria central, no sitemap
+  e crawláveis sem depender de JS; só não aparecem soltas no menu.
+- **Central `/especialidades/` reformulada**: hero, busca client-side por
+  nome de área (degrada bem sem JS — todas as áreas continuam visíveis e
+  linkadas), 6 grupos temáticos com cards, explicação do diagnóstico,
+  CTA. "Cobertura inicial ampla, não uma classificação oficial ou
+  exaustiva" está escrito na própria página, como pedido.
+- **Formulário de contato**: CTA secundário de cada página de área agora
+  linka para `/contato/?area=...&origem=...` (infraestrutura de
+  prefill por query string já existia desde a fase anterior) — a área e
+  a página de origem chegam preenchidas sem exigir confirmação manual de
+  interesse em gestão de tráfego completa.
+- **Não criadas nesta rodada** (ficam para fase futura, como pedido): BPC/
+  LOAS, inventário, divórcio, golpe do Pix, desbloqueio de conta, negativa
+  de plano de saúde, busca e apreensão, defesa de multas, bloqueio de
+  transportador — tipos de processo específicos, hoje cobertos como
+  exemplos dentro da área correspondente (ex.: golpe do Pix é mencionado
+  dentro de Direito Bancário), não como página própria.
+- Build roda sem erro (`node build/run.mjs`), 3.229 links internos
+  verificados por script — zero quebrados — e suíte Playwright completa
+  (154 testes, celular e computador) passando, incluindo uma verificação
+  individual de cada uma das 35 páginas novas.
+- Branch de revisão, nada publicado em produção.
